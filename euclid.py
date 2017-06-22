@@ -85,41 +85,41 @@ Note: Default is KITTI format \
 
 
 # Object Classes (No spaces in name)
-CLASSES = ['Class0', 'Class1', 'Class2', 'Class3', 'Class4', 'Class5', 'Class6', 'Class7', 'Class8', 'Class9']
+CLASSES = ['jernstang', 'lykt', 'varde', 'gul', 'roed', 'groenn', 'Class6', 'Class7', 'Class8', 'Class9']
 
 class Euclid():
 
     #set class label 
-    def setClass0(self):
+    def setClass0(self, test=0):
         self.currClassLabel=0;
-        self.currClassLabelDisplayString.set('Current Class = 0')
-    def setClass1(self):
+        self.currClassLabelDisplayString.set('Current Class = '+CLASSES[0])
+    def setClass1(self, test=0):
         self.currClassLabel=1;
-        self.currClassLabelDisplayString.set('Current Class = 1')        
-    def setClass2(self):
+        self.currClassLabelDisplayString.set('Current Class = '+CLASSES[1])        
+    def setClass2(self, test=0):
         self.currClassLabel=2;
-        self.currClassLabelDisplayString.set('Current Class = 2')        
-    def setClass3(self):
+        self.currClassLabelDisplayString.set('Current Class = '+CLASSES[2])        
+    def setClass3(self, test=0):
         self.currClassLabel=3;
-        self.currClassLabelDisplayString.set('Current Class = 3')                
-    def setClass4(self):
+        self.currClassLabelDisplayString.set('Current Class = '+CLASSES[3])                
+    def setClass4(self, test=0):
         self.currClassLabel=4;
-        self.currClassLabelDisplayString.set('Current Class = 4')
-    def setClass5(self):
+        self.currClassLabelDisplayString.set('Current Class = '+CLASSES[4])
+    def setClass5(self, test=0):
         self.currClassLabel=5;
-        self.currClassLabelDisplayString.set('Current Class = 5')        
-    def setClass6(self):
+        self.currClassLabelDisplayString.set('Current Class = '+CLASSES[5])        
+    def setClass6(self, test=0):
         self.currClassLabel=6;
-        self.currClassLabelDisplayString.set('Current Class = 6')        
-    def setClass7(self):
+        self.currClassLabelDisplayString.set('Current Class = '+CLASSES[6])        
+    def setClass7(self, test=0):
         self.currClassLabel=7;
-        self.currClassLabelDisplayString.set('Current Class = 7')        
-    def setClass8(self):
+        self.currClassLabelDisplayString.set('Current Class = '+CLASSES[7])        
+    def setClass8(self, test=0):
         self.currClassLabel=8;
-        self.currClassLabelDisplayString.set('Current Class = 8')        
-    def setClass9(self):
+        self.currClassLabelDisplayString.set('Current Class = '+CLASSES[8])        
+    def setClass9(self, test=0):
         self.currClassLabel=9;
-        self.currClassLabelDisplayString.set('Current Class = 9')        
+        self.currClassLabelDisplayString.set('Current Class = '+CLASSES[9])        
 
     def askDirectory(self):
       self.imageDir = tkFileDialog.askdirectory()
@@ -175,9 +175,7 @@ class Euclid():
         self.total = len(self.imageList)
 
          # set up output dir
-        self.outDir = os.path.join(self.imageDir + '/LabelData')
-        if not os.path.exists(self.outDir):
-            os.mkdir(self.outDir)
+        self.outDir = os.path.join(self.imageDir)
 
         self.updateStatus( '%d images loaded from %s' %(self.total, self.imageDir))
         self.loadImageAndLabels()
@@ -241,6 +239,13 @@ class Euclid():
         self.parent.bind("<F1>", self.showHelp)  # press <F1> to show help
         self.parent.bind("<Left>", self.prevImage) # press 'Left Arrow' to go backforward
         self.parent.bind("<Right>", self.nextImage) # press 'Right Arrow' to go forward
+        
+        self.parent.bind("1", self.setClass0)
+        self.parent.bind("2", self.setClass1) 
+        self.parent.bind("3", self.setClass2)
+        self.parent.bind("4", self.setClass3)  
+
+
         self.mainPanel.grid(row = 1, column = 0, rowspan = 4, sticky = W+N)
 
         # Boundingbox info panel
@@ -294,7 +299,7 @@ class Euclid():
         self.FormatLabel = Label(self.FileControlPanelFrame, text = '2. Format Selection')
         self.FormatLabel.grid(row = 2, column = 0, sticky = W+N)
         self.isYoloCheckBox = IntVar()
-        self.isYoloCheckBox.set(0)    
+        self.isYoloCheckBox.set(1)    
         self.yoloCheckBox = Radiobutton(self.FileControlPanelFrame, variable=self.isYoloCheckBox, value=1, text="Yolo Format")
         self.yoloCheckBox.grid(row = 3, column = 0, sticky = N)
         self.kittiCheckBox = Radiobutton(self.FileControlPanelFrame, variable=self.isYoloCheckBox, value=0, text="KITTI Format")
