@@ -85,7 +85,7 @@ Note: Default is KITTI format \
 
 
 # Object Classes (No spaces in name)
-CLASSES = ['jernstang', 'lykt', 'varde', 'gul', 'roed', 'groenn', 'Class6', 'Class7', 'Class8', 'Class9']
+CLASSES = ['jernstake', 'lykt', 'varde', 'gul', 'roed', 'groenn', 'Class6', 'Class7', 'Class8', 'Class9']
 
 class Euclid():
 
@@ -95,7 +95,7 @@ class Euclid():
         self.currClassLabelDisplayString.set('Current Class = '+CLASSES[0])
     def setClass1(self, test=0):
         self.currClassLabel=1;
-        self.currClassLabelDisplayString.set('Current Class = '+CLASSES[1])        
+        self.currClassLabelDisplayString.set('Current Class = '+CLASSES[1])     
     def setClass2(self, test=0):
         self.currClassLabel=2;
         self.currClassLabelDisplayString.set('Current Class = '+CLASSES[2])        
@@ -243,7 +243,8 @@ class Euclid():
         self.parent.bind("1", self.setClass0)
         self.parent.bind("2", self.setClass1) 
         self.parent.bind("3", self.setClass2)
-        self.parent.bind("4", self.setClass3)  
+        self.parent.bind("4", self.setClass3) 
+        self.parent.bind("c", self.setClass)  
 
 
         self.mainPanel.grid(row = 1, column = 0, rowspan = 4, sticky = W+N)
@@ -256,10 +257,14 @@ class Euclid():
         self.lb1.grid(row = 0, column = 0,  sticky = W+N)
         self.listbox = Listbox(self.bboxControlPanelFrame, width = 40, height = 12,  background='white')
         self.listbox.grid(row = 1, column = 0, sticky = N)
+        self.btnCls = Button(self.bboxControlPanelFrame, text = 'Set Class', command = self.setClass)
+        self.btnCls.grid(row = 2, column = 0, sticky = W+E+N)
         self.btnDel = Button(self.bboxControlPanelFrame, text = 'Delete', command = self.delBBox)
-        self.btnDel.grid(row = 2, column = 0, sticky = W+E+N)
+        self.btnDel.grid(row = 3, column = 0, sticky = W+E+N)
+        self.btnTxt = Button(self.bboxControlPanelFrame, text = 'Delete txt file', command = self.delTxt)
+        self.btnTxt.grid(row = 4, column = 0, sticky = W+E+N)
         self.btnClear = Button(self.bboxControlPanelFrame, text = 'Clear All', command = self.clearBBox)
-        self.btnClear.grid(row = 3, column = 0, sticky = W+E+N)
+        self.btnClear.grid(row = 5, column = 0, sticky = W+E+N)
 
 	    #Class labels selection
         # control panel for label navigation
@@ -528,16 +533,32 @@ class Euclid():
     def showHelp(self, event):
         tkMessageBox.showinfo("Help", USAGE)
 
+    def delTxt(self):
+        if len(sel) != 1 :
+            return
+        print("todo: delete txt file"+self.labelfilename)
+
+
+    def setClass(self):
+        sel = self.listbox.curselection()
+        if len(sel) != 1:
+            return
+        idx = int(sel[0])
+        self.classLabelList[idx]=self.currClassLabel
+
 
     def delBBox(self):
         sel = self.listbox.curselection()
         if len(sel) != 1 :
             return
         idx = int(sel[0])
+       
+
         self.mainPanel.delete(self.bboxIdList[idx])
         self.bboxIdList.pop(idx)
         self.bboxList.pop(idx)
         self.listbox.delete(idx)
+
 
     def clearBBox(self):
         for idx in range(len(self.bboxIdList)):
